@@ -5,8 +5,8 @@ Self-Driving Car Engineer Nanodegree Program
 
 [//]: # (Image References)
 
-[simulator]: ./output_images/simulator_running.png "Simulator"
-[tuning]: ./output_images/pid_tuning.gif "tuning"
+[simulator]: ./output/simulator_running.png "Simulator"
+[tuning]: ./output/pid_tuning.gif "tuning"
 
 ## Dependencies
 
@@ -83,17 +83,17 @@ CarND-PID-Control-Project
 ```
 
 ## PID Control
-The PID implementation is done on the [`./src/PID.cpp`]. The PID::UpdateError method calculates proportional, integral and derivative errors and the PID::TotalError calculates the total error using the appropriate coefficients.
+The PID implementation is done on the `./src/PID.cpp`. The PID::UpdateError method calculates proportional, integral and derivative errors and the PID::TotalError calculates the total error using the appropriate coefficients.
 
 ![alt text][simulator]
 
 ### P/I/D parameters
 
-1. The proportional portion of the controller tries to steer the car toward the center line (against the cross-track error). If used this param only, the car overshoots the central line very easily and go out of the road very quickly. Example video: [`./output/pidcontrol_p_only.mp4 `]
+1. The proportional portion of the controller tries to steer the car toward the center line (against the cross-track error). If used this param only, the car overshoots the central line very easily and go out of the road very quickly. Example video: `./output/pidcontrol_p_only.mp4 `
 
-2. The integral portion tries to eliminate a possible bias on the controlled system that could prevent the error to be eliminated. If used this param only, it makes the car to go in circles. Example video: [`./output/pidcontrol_i_only.mp4 `]
+2. The integral portion tries to eliminate a possible bias on the controlled system that could prevent the error to be eliminated. If used this param only, it makes the car to go in circles. Example video: `./output/pidcontrol_i_only.mp4 `
 
-3. The differential portion helps to counteract the proportional trend to overshoot the center line by smoothing the approach to it. Example video: [`./output/pidcontrol_d_only.mp4 `]
+3. The differential portion helps to counteract the proportional trend to overshoot the center line by smoothing the approach to it. Example video: `./output/pidcontrol_d_only.mp4 `
 
 | **Parameter** | **Rise time** | **Overshoot** | **Settling time**  | **Steady-state** **error**  | **Stability** |
 |--|--|--|--|--|--|
@@ -119,4 +119,4 @@ The final values of the two PID Controllers are:
 ## Results
 
 The vehicle drive successfully at least a lap around the track. 
-Details video: [`./output/pidcontrol_fullparams.mp4 `]
+Details video: `./output/pidcontrol_fullparams.mp4 `
