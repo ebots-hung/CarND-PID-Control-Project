@@ -99,7 +99,7 @@ The PID implementation is done on the `./src/PID.cpp`. The PID::UpdateError meth
 |--|--|--|--|--|--|
 | _**K<sub>p</sub>**_  |  Decrease   |  Increase   |  Small change    |  Decrease   |  Degrade   |
 | _**K<sub>i</sub>**_  |  Decrease   |  Increase   |  Increase    |  Eliminate   |  Degrade   |
-| _**K<sub>d</sub>**_  |  Small change   |  Decrease   |  Decrease    |  No effect in theory   |  Small change  |
+| _**K<sub>d</sub>**_  |  Small change   |  Decrease   |  Decrease    |  Decrease   |  Small change  |
 
 Refer: https://people.ece.cornell.edu/land/courses/ece4760/FinalProjects/s2012/fas57_nyp7/Site/pidcontroller.html
 
