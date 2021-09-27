@@ -39,7 +39,20 @@ int main() {
   PID pid_st;
   PID pid_th; 
 
-  pid_st.Init(0.125, 0.0001, 1.25);
+  // P-Controller
+  // pid_st.Init(0.1, 0.0, 0.0);
+  // pid_th.Init(0.1, 0.0, 0.0);
+
+  // I-Controller
+  // pid_st.Init(0.0, 0.1, 0.0);
+  // pid_th.Init(0.0, 0.1, 0.0);
+
+  // D-Controller
+  // pid_st.Init(0.0, 0.0, 0.1);
+  // pid_th.Init(0.0, 0.0, 0.1);
+
+  // final parameters
+  pid_st.Init(0.13, 0.0001, 1.25);
   pid_th.Init(0.1, 0.001, 0.05);
 
   h.onMessage([&pid_st, &pid_th](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 

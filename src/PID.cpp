@@ -34,7 +34,7 @@ double PID::TotalError() {
   /**
    * TODO: Calculate and return the total error
    */
-  double total_error = -Kp * p_error - Kd * d_error - Ki * i_error;
+  double total_error = -Kp*p_error - Kd*d_error - Ki*i_error;
   // values of the characteristic under control belongs to [-1.0, 1.0]
   if (total_error > 1.0) {
     total_error = 1.0;

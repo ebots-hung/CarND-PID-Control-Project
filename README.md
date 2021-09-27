@@ -3,6 +3,11 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+[//]: # (Image References)
+
+[simulator]: ./output_images/simulator_running.png "Simulator"
+[tuning]: ./output_images/pid_tuning.gif "tuning"
+
 ## Dependencies
 
 * cmake >= 3.5
@@ -50,49 +55,68 @@ using the following settings:
 
 Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
-## Project Instructions and Rubric
+# PID Control Implementation
+The directory structure of this repository is as follows:
 
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
+```
+CarND-PID-Control-Project
+├── CMakeLists.txt
+├── cmakepatch.txt
+├── CODEOWNERS
+├── install-mac.sh
+├── install-ubuntu.sh
+├── LICENSE
+├── output
+│   ├── pidcontrol_d_only.mp4
+│   ├── pidcontrol_fullparams.mp4
+│   ├── pidcontrol_i_only.mp4
+│   ├── pidcontrol_p_only.mp4
+│   ├── pid_tuning.gif
+│   └── simulator_running.png
+├── README.md
+├── set_git.sh
+└── src
+    ├── json.hpp
+    ├── main.cpp
+    ├── PID.cpp
+    └── PID.h
+```
 
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
+## PID Control
+The PID implementation is done on the [`./src/PID.cpp`]. The PID::UpdateError method calculates proportional, integral and derivative errors and the PID::TotalError calculates the total error using the appropriate coefficients.
 
-## Hints!
+![alt text][simulator]
 
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
+### P/I/D parameters
 
-## Call for IDE Profiles Pull Requests
+1. The proportional portion of the controller tries to steer the car toward the center line (against the cross-track error). If used this param only, the car overshoots the central line very easily and go out of the road very quickly. Example video: [`./output/pidcontrol_p_only.mp4 `]
 
-Help your fellow students!
+2. The integral portion tries to eliminate a possible bias on the controlled system that could prevent the error to be eliminated. If used this param only, it makes the car to go in circles. Example video: [`./output/pidcontrol_i_only.mp4 `]
 
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
+3. The differential portion helps to counteract the proportional trend to overshoot the center line by smoothing the approach to it. Example video: [`./output/pidcontrol_d_only.mp4 `]
 
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
+| **Parameter** | **Rise time** | **Overshoot** | **Settling time**  | **Steady-state** **error**  | **Stability** |
+|--|--|--|--|--|--|
+| _**K<sub>p</sub>**_  |  Decrease   |  Increase   |  Small change    |  Decrease   |  Degrade   |
+| _**K<sub>i</sub>**_  |  Decrease   |  Increase   |  Increase    |  Eliminate   |  Degrade   |
+| _**K<sub>d</sub>**_  |  Minor change   |  Decrease   |  Decrease    |  No effect in theory   |  Improve if _K<sub>d</sub>_ small   |
 
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
 
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
+### PID Tuning
 
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
+The parameters was initially chosen as _K<sub>p</sub>_, _K<sub>i</sub>_ and _K<sub>d</sub>_ equal to _0.1_, _0.0_, and _0.0_ respectively. Then the _K<sub>p</sub>_ was increased until it reached a value of a value of _0.13_. Afterwards the _K<sub>i</sub>_ was introduced. Although the _K<sub>i</sub>_ can gives quicker responses, but having a high value of it, can introduce more oscillations, so an optimal value was found that was well performing of _0.0001_. Then the _K<sub>d</sub>_ was introduced and increased until the oscillations decreased and the required trajectory was reached, and it was set to a value of _1.25_.
 
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
+Moreover, a throttle PID was implemented to control the acceleration and deceleration based on the error difference between the target speed of _30.0 mph_ and the current speed, also it was tuned manually until getting optimal values.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+The final values of the two PID Controllers are:
+| | **_K<sub>p</sub>_** | **_K<sub>i</sub>_** | **_K<sub>d</sub>_** |
+|--|--|--|--|
+|**steering_pid**|_0.13_|_0.0001_|_1.25_|
+|**speed_pid**|_0.1_|_0.001_|_0.05_|
 
+![alt text][tuning]
+
+## Results
+
+The vehicle drive successfully at least a lap around the track. 
+Details video: [`./output/pidcontrol_fullparams.mp4 `]
