@@ -106,7 +106,7 @@ The PID implementation is done on the `./src/PID.cpp`. The PID::UpdateError meth
 
 The parameters was initially chosen as _K<sub>p</sub>_, _K<sub>i</sub>_ and _K<sub>d</sub>_ equal to _0.1_, _0.0_, and _0.0_ respectively. Then the _K<sub>p</sub>_ was increased until it reached a value of a value of _0.13_. Afterwards the _K<sub>i</sub>_ was introduced. Although the _K<sub>i</sub>_ can gives quicker responses, but having a high value of it, can introduce more oscillations, so an optimal value was found that was well performing of _0.0001_. Then the _K<sub>d</sub>_ was introduced and increased until the oscillations decreased and the required trajectory was reached, and it was set to a value of _1.25_.
 
-Moreover, a throttle PID was implemented to control the acceleration and deceleration based on the error difference between the target speed of _30.0 mph_ and the current speed, also it was tuned manually until getting optimal values.
+Besides, a throttle PID was implemented to control the acceleration and deceleration based on the error difference between the target speed of _30.0 mph_ and the current speed, also it was tuned manually until getting optimal values.
 
 The final values of the two PID Controllers are:
 | | **_K<sub>p</sub>_** | **_K<sub>i</sub>_** | **_K<sub>d</sub>_** |
